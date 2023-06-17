@@ -17,8 +17,18 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from product.views import index
+from product.views import shop
+from product.views import cart, checkout, contact, detail
 
 urlpatterns = [
+
+    path('', index, name='index'),
+    
     path('admin/', admin.site.urls),
-    path('', index),
+    path('shop/', shop, name='shop'),
+    path('contact/', contact),
+    
+    path('shop/detail/', detail),
+    path('shop/checkout/', checkout),
+    path('shop/cart/', cart),
 ]
