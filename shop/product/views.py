@@ -34,8 +34,6 @@ def shop(request):
                 print("not equal")
         print(sorted_products)
         products = sorted_products
-    # else:
-    #     products = Product.objects.order_by('name')
 
     categories = Category.objects.order_by('name')
 
@@ -55,4 +53,26 @@ def contact(request):
     return render(request, 'pages/contact.html')
 
 def detail(request):
-    return render(request, 'pages/detail.html')
+    query = request.GET.get('product')
+    print("Query => ", query)
+    
+    products = Product.objects.order_by('name')
+
+    if query == None:
+        print("404 ERROR")
+    else:
+        detailed_product = None
+        products = Product.objects.order_by('name')
+        for product in products:
+            if str(product.name) == str(query):
+                print("equal")
+                detailed_product = product
+            else: 
+                print("not equal")
+
+    context = {
+        "detailed_product" : detailed_product,
+        "products" : products,
+    } 
+
+    return render(request, 'pages/detail.html', context)
