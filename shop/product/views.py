@@ -69,10 +69,20 @@ def detail(request):
                 detailed_product = product
             else: 
                 print("not equal")
-
+    print("Photo => ", detailed_product.photo_0)
     context = {
         "detailed_product" : detailed_product,
         "products" : products,
     } 
 
     return render(request, 'pages/detail.html', context)
+
+def login(request):
+    query = request.GET
+    print("QUERY => ", query)
+
+    return render(request, 'authorisation/login.html')
+
+def log_in(request):
+    query = request.GET
+    print("QUERY => ", query)

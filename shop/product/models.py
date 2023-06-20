@@ -4,6 +4,7 @@ from django.shortcuts import render
 from django.db.models.signals import post_migrate
 from django.dispatch import receiver
 from django.apps import apps
+from django.utils.html import mark_safe
 
 
 # python manage.py makemigrations
@@ -39,6 +40,16 @@ class Product(models.Model):
     description = models.CharField(max_length=100)
 
     price = models.DecimalField(max_digits=10, decimal_places=2)
+
+    photo_0 = models.ImageField(upload_to="photos/%Y/%m/%d/", null=False)
+    photo_1 = models.ImageField(upload_to="photos/%Y/%m/%d/", blank=True)
+    photo_2 = models.ImageField(upload_to="photos/%Y/%m/%d/", blank=True)
+    photo_3 = models.ImageField(upload_to="photos/%Y/%m/%d/", blank=True)
+
+    def image_tag(self):
+        return mark_safe('<img src="%s" width="100px" height="100px" />'%(self.photo_0.url))
+    image_tag.short_description = 'Image'
+
 
     category = models.ForeignKey(Category, on_delete=models.RESTRICT)
 
