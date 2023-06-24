@@ -1,21 +1,33 @@
+from functools import wraps
 from django.shortcuts import render
 
 from .models import Product, Category
+from users.models import User
 
+def context_data(func):
+    @wraps(func)
+    def wrapper(request, *args, **kwargs):
+        products = Product.objects.order_by('name')
+        categories = Category.objects.order_by('name')
+        user = User.objects.filter(username=request.user.username) 
+        print("USER => ", user)
+        context = {
+            "products": products,
+            'categories': categories,
+            'users': user
 
+        }
+        return func(request, *args, context=context, **kwargs)
+    return wrapper
 
-
-def index(request):
-    products = Product.objects.order_by('name')
-    categories = Category.objects.order_by('name')
-    context = {
-        "products" : products,
-        "categories" : categories
-    }
+@context_data
+def index(request, context):
+    user = User
+    print("user", user.username)
     return render(request, 'pages/index.html', context)
-
-
-def shop(request):
+    
+@context_data
+def shop(request, context):
 
     query = request.GET.get('category')
     print("Query => ", query)
@@ -36,23 +48,30 @@ def shop(request):
         products = sorted_products
 
     categories = Category.objects.order_by('name')
+    user = User.objects.order_by('username')
+    print("USER => ", user)
 
     context = {
         "products" : products,
-        "categories" : categories
+        "categories" : categories,
+        "users" : user
     }
     return render(request, 'pages/shop.html', context)
 
+@context_data
 def cart(request):
     return render(request, 'pages/cart.html')
 
-def checkout(request):
+@context_data
+def checkout(request, context):
     return render(request, 'pages/checkout.html')
 
-def contact(request):
-    return render(request, 'pages/contact.html')
+@context_data
+def contact(request, context):
+    return render(request, 'pages/contact.html', context)
 
-def detail(request):
+@context_data
+def detail(request, context):
     query = request.GET.get('product')
     print("Query => ", query)
     
@@ -77,12 +96,4 @@ def detail(request):
 
     return render(request, 'pages/detail.html', context)
 
-def login(request):
-    query = request.GET
-    print("QUERY => ", query)
 
-    return render(request, 'authorisation/login.html')
-
-def log_in(request):
-    query = request.GET
-    print("QUERY => ", query)

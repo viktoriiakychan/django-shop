@@ -20,7 +20,6 @@ from django.contrib import admin
 from django.urls import path, include
 
 from product.views import index, shop, contact, detail, checkout, cart
-from product.views import login
 
 urlpatterns = [
 
@@ -28,8 +27,8 @@ urlpatterns = [
     
     path('admin/', admin.site.urls),
    
-    path('shop/', shop, name='shop'),
-    path('contact/', contact),
+    path('shop/', shop),
+    path('contact/', contact, name='contact'),
     
     path('shop/detail/', detail),
     path('shop/checkout/', checkout),
