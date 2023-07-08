@@ -1,15 +1,16 @@
 from django.urls import path, include
+from users.views import profile
 from users.views import logout_view
 from django.contrib.auth import views as auth_views
 
-from users.views import UserLoginView,UserRegisterView, EmailConfirmationSentView, UserConfirmEmailView, EmailConfirmedView, EmailConfirmationFailedView
+from users.views import UserLoginView, UserRegisterView, EmailConfirmationSentView, UserConfirmEmailView, EmailConfirmedView, EmailConfirmationFailedView
 
 
 urlpatterns = [
     path('login/', UserLoginView.as_view(), name="login"),
-    # path('logout/', logout_view, name="logout"),
-     path('logout', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
+    path('logout', logout_view, name='logout'),
     path('register/', UserRegisterView.as_view(), name="register"),
+    path("profile/", profile, name="profile"),
     path('email-confirmation-sent/', EmailConfirmationSentView.as_view(),
          name='email_confirmation_sent'),
     path('confirm-email/<str:uidb64>/<str:token>/',

@@ -19,23 +19,31 @@ from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include
 
-from product.views import index, shop, contact, detail, checkout, cart
+from product.views import index, shop, contact, contact_admin, detail, checkout, cart, add_to_cart, remove_from_cart, place_order ,increase_quantity, decrease_quantity
 
+app_name = 'products'
 urlpatterns = [
-
      path('', index, name='index'),
     
     path('admin/', admin.site.urls),
    
-    path('shop/', shop),
+    path('shop/', shop, name='shop'),
     path('contact/', contact, name='contact'),
     
     path('shop/detail/', detail),
     path('shop/checkout/', checkout),
-    path('shop/cart/', cart),
+    path('place_order/', place_order, name='place_order'),
 
+    path('shop/cart/', cart),
+    path('increase_quantity/<int:basket_id>/', increase_quantity, name='increase_quantity'),
+    path('decrease_quantity/<int:basket_id>/', decrease_quantity, name='decrease_quantity'),
 
     path('users/', include('users.urls') , name='users'),
+    path('add_to_cart/<int:product_id>/', add_to_cart, name='add_to_cart'),    
+    path('remove_from_cart/<int:basket_id>/', remove_from_cart, name='remove_from_cart'),
+
+    path('contact_admin/', contact_admin, name='contact_admin'),
+
 
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

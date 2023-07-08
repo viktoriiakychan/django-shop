@@ -32,7 +32,7 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
-    'admin_datta.apps.AdminDattaConfig',
+    'admin_datta',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'product',
     'users',
     'compressor',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -157,3 +158,9 @@ AUTH_USER_MODEL = 'users.User'
 LOGIN_URL = '/users/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
+MEDIA_URL = '/uploads/'
+
+# USER_MEDIA_ROOT = os.path.join(BASE_DIR, 'users_avatars')
+# USER_MEDIA_URL = '/users_avatars/'

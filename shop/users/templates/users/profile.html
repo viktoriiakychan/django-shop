@@ -1,33 +1,103 @@
-{% extends "myapp/base.html" %}
-
+{% extends "base.html" %}
 {% block content %}
-
-    {% if user.profile %}
-    <div class="grid p-10 grid-cols-1 lg:grid-cols-3 sm:grid-cols-1">
-        <div class="rounded shadow-lg">
-            <div>
-                {% if  user.profile.image %}
-                    <img src="{{ user.profile.image.url }}">
-                {% endif %}
-                
+<div class="container-xl px-4 mt-4">
+    <div class="row">
+        <div class="col-xl-4">
+            <!-- Profile picture card-->
+            <div class="card mb-4 mb-xl-0">
+                <div class="card-header">Profile Picture</div>
+                <div class="card-body text-center">
+                    
+                    {% if user.image %}
+                        <img src="{{ user.image.url }}" style="width: 11rem;" alt="Profile Image" />
+                    {% endif %}
+                    
+                </div>
             </div>
-            <h1 class="font-bold text-xl m-2">{{ user.username }}</h1>
+        </div>
+        <div class="col-xl-8">
+            <!-- Account details card-->
+            <div class="card mb-4">
+                <div class="card-header">Account Details</div>
+                <div class="card-body">
+                    <form method="POST" action="{% url 'profile' %}">
+                        {% csrf_token %} 
+                        <!-- Form Group (username)-->
+                        {% comment %} {{ form.as_p }} ==> MAKES A FORM BY DEFAULt{% endcomment %} 
+                        <div class="mb-3">
+                            <label class="small mb-1" for="inputUsername">Username</label>
+                            {{form.username}}
+                            {% comment %} <input class="form-control" id="inputUsername" type="text" placeholder="Enter your username" value="username"> {% endcomment %}
+                        </div>
+                        <!-- Form Row-->
+                        <div class="row gx-3 mb-3">
+                            <!-- Form Group (first name)-->
+                            <div class="col-md-6">
+                                <label class="small mb-1" for="inputFirstName">First name</label>
+                                {{form.first_name}}
+                            </div>
+                            <!-- Form Group (last name)-->
+                            <div class="col-md-6">
+                                <label class="small mb-1" for="inputLastName">Last name</label>
+                                {{form.last_name}}
+                            </div>
+                        </div>
+                        <!-- Form Group (email address)-->
+                        <div class="mb-3">
+                            <label class="small mb-1" for="inputEmailAddress">Email address</label>
+                            {{form.email}}
+                        </div>
+                        {% comment %} {{ form.image.label_tag }}
+                    {{ form.image }}
+                    {% if user.image %}
+                        <img src="{{ user.image.url }}" alt="Profile Image" />
+                    {% endif %} {% endcomment %}
+                    <div>
+                        {{ form.image.image_tag }}
+                        {{ form.image }}
+                      </div>
+                        <!-- Save changes button-->
+                        <button class="btn btn-primary" type="submit">Save changes</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
-    {% else %}
-    <div class="container py-5">
-        <h1 class="text-2xl m-10 font-bold">Register User</h1>
-        <form class="w-2/5 bg-white-700 shadow-md m-10 rounded px-8 pt-6 pb-8 mb-4" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div class="mb-2">
-                <label class="block text-gray-700 text-sm font-bold mb-2">Upload profile image </label>
-                <input class="block mt-4" type="file" accept="image/*" name="upload" id="upload" required>
-                <label class="block text-gray-700 text-sm font-bold mt-5 mb-2">Contact number</label>
-                <input class="block mt-4" type="text"  name="number" id="number">
-            </div>
-            <button class="bg-green-500 text-white px-5 py-2" type="submit">Create Profile</button>
-        </form>
-    </div>
-    {% endif %}
-   
+</div>
 {% endblock content %}
+
+{% comment %} 
+
+{% extends "base.html" %}
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center">
+  <div>
+    {% if user.image %}
+    <img src="{{ user.image.url }}" alt="Profile Image" />
+    {% endif %}
+  </div>
+  <div>
+    <h3 class="font-bold text-xl m-2">{{ user.username }}</h1>
+    <h3 class="font-bold text-xl m-2">{{ user.email }}</h1>
+    <h3 class="font-bold text-xl m-2">{{ user.first_name }}</h1>
+    <h3 class="font-bold text-xl m-2">{{ user.last_name }}</h1>
+  </div>
+</div>
+
+<div class="container d-flex justify-content-center">
+  <div class="p-10" id="form-container">
+    <form id="my-form" method="POST" enctype="multipart/form-data">
+      {% csrf_token %} 
+      <div class="my-3">{{ form.username }}</div>
+      <div class="my-3">{{ form.email }}</div>
+      <div class="my-3">{{ form.first_name }}</div>
+      <div class="my-3">{{ form.last_name }}</div>
+      <div>
+        {{ form.image.label_tag }}
+        {{ form.image }}
+      </div>
+      <button type="submit">Save Changes</button>
+    </form>
+  </div>
+</div>
+{% endblock content %} {% endcomment %}

@@ -32,22 +32,24 @@
             <div id="product-carousel" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner bg-light">
                 <div class="carousel-item active">
-                    <img class="w-100 h-100" src="{{products[0].photo_0.url}}" alt="Image">
+                    <img class="w-100 h-100" src="{{detailed_product.photo_0.url}}" alt="Image">
                 </div>
-                {%for product in products%}
-                    <div class="carousel-item active">
-                        <img class="w-100 h-100" src="{{product.photo_0.url}}" alt="Image">
-                    </div>
-                {%endfor%%}
-                    <div class="carousel-item">
-                        <img class="w-100 h-100" src="img/product-2.jpg" alt="Image">
-                    </div>
-                    <div class="carousel-item">
-                        <img class="w-100 h-100" src="img/product-3.jpg" alt="Image">
-                    </div>
-                    <div class="carousel-item">
-                        <img class="w-100 h-100" src="img/product-4.jpg" alt="Image">
-                    </div>
+                    {%if detailed_product.photo_1 %}
+                        <div class="carousel-item">
+                            <img class="w-100 h-100" src="{{detailed_product.photo_1.url}}" alt="Image">
+                        </div>
+                    {%endif%}
+                    {%if product.photo_2 %}
+                        <div class="carousel-item">
+                            <img class="w-100 h-100" src="{{product.photo_2.url}}" alt="Image">
+                        </div>
+                    {%endif%}
+                    {%if product.photo_3 %}
+                        <div class="carousel-item">
+                            <img class="w-100 h-100" src="{{product.photo_3.url}}" alt="Image">
+                        </div>
+                    {%endif%}
+                    
                 </div>
                 <a class="carousel-control-prev" href="#product-carousel" data-slide="prev">
                     <i class="fa fa-2x fa-angle-left text-dark"></i>
@@ -74,38 +76,8 @@
                 <h3 class="font-weight-semi-bold mb-4">€{{detailed_product.price}}</h3>
                 <p class="mb-4">{{detailed_product.description}}</p>
                 <div class="d-flex align-items-center mb-4 pt-2">
-                    <div class="input-group quantity mr-3" style="width: 130px;">
-                        <div class="input-group-btn">
-                            <button class="btn btn-primary btn-minus">
-                                <i class="fa fa-minus"></i>
-                            </button>
-                        </div>
-                        <input type="text" class="form-control bg-secondary border-0 text-center" value="1">
-                        <div class="input-group-btn">
-                            <button class="btn btn-primary btn-plus">
-                                <i class="fa fa-plus"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <button class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i> Add To
-                        Cart</button>
-                </div>
-                <div class="d-flex pt-2">
-                    <strong class="text-dark mr-2">Share on:</strong>
-                    <div class="d-inline-flex">
-                        <a class="text-dark px-2" href="">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a class="text-dark px-2" href="">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a class="text-dark px-2" href="">
-                            <i class="fab fa-linkedin-in"></i>
-                        </a>
-                        <a class="text-dark px-2" href="">
-                            <i class="fab fa-pinterest"></i>
-                        </a>
-                    </div>
+                    <a class="btn btn-primary px-3" href="{% url 'add_to_cart' detailed_product.id %}"><i class="fa fa-shopping-cart mr-1"></i> Add To
+                        Cart</a>
                 </div>
             </div>
         </div>
